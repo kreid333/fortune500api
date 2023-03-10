@@ -1,0 +1,9 @@
+DirectoryIndex "/public/index.php"
+
+# enabling the mod_rewrite module
+RewriteEngine On
+
+# if the requested file name is not a regular file & is not a directory, execute RewriteRule
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule "." "/public/index.php" [L]
