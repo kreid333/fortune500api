@@ -48,4 +48,22 @@ class Fortune500Controller
             echo $companies;
         }
     }
+
+    public static function getCompanyByRank()
+    {
+        if (self::fortune500() == NULL) {
+            Request::error();
+        } else {
+            if (!isset(Request::explodedUri()[2]) || is_nan(Request::explodedUri()[2]) || Request::explodedUri()[2] > 500 || Request::explodedUri()[2] == 0) {
+                Request::error();
+            } else {
+                $result = self::fortune500()->getCompanyByRank(intval(Request::explodedUri()[2]));
+                $result = $result->fetch(PDO::FETCH_ASSOC);
+                $result = json_encode($result);
+
+                Request::setHeaders(["Access-Control-Allow-Origin: *", "Content-Type: application/json"]);
+                echo $result;
+            }
+        }
+    }
 }

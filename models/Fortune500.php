@@ -44,4 +44,27 @@ class Fortune500
         
         return $stmt;
     }
+
+    public function getCompanyByRank($rank)
+    {
+        $conn = Database::conn();
+        $query = "SELECT 
+        rank,
+        company_name,
+        number_of_employees,
+        change_in_rank,
+        revenues_in_millions,
+        revenue_percent_change,
+        profits_in_millions,
+        profit_percent_change,
+        assets_in_millions,
+        market_value_in_millions 
+        FROM " . $this->year . " WHERE rank = :rank";
+
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["rank" => $rank]);
+        $conn = NULL;
+        
+        return $stmt;
+    }
 }

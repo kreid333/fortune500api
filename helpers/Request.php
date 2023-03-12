@@ -27,7 +27,7 @@ class Request
                 break;
 
             default:
-                $year = null;
+                $year = NULL;
                 break;
         }
 

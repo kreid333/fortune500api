@@ -11,6 +11,10 @@ class Router
                 Fortune500Controller::getCompanies();
                 break;
 
+            case "rank":
+                Fortune500Controller::getCompanyByRank();
+                break;
+
             default:
                 Request::error();
                 break;
