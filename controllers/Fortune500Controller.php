@@ -4,6 +4,9 @@ require_once("../helpers/Request.php");
 
 class Fortune500Controller
 {
+    public static $offset = 0;
+    public static $limit = 25;
+
     private static function fortune500()
     {
         if (Request::year() == NULL) {
@@ -19,7 +22,36 @@ class Fortune500Controller
         if (self::fortune500() == NULL) {
             Request::error();
         } else {
-            $result = self::fortune500()->getCompanies();
+            if (!empty($_GET)) {
+                $req_keys = array_keys($_GET);
+                $valid_keys = ["page", "limit"];
+
+                // if any of the keys in the GET array do not match any of the keys in the req_keys array...
+                for ($i = 0; $i < count($req_keys); $i++) {
+                    if (!in_array($req_keys[$i], $valid_keys)) {
+                        Request::error();
+                    }
+                }
+
+                if (isset($_GET["limit"])) {
+                    if (!is_numeric($_GET["limit"]) || $_GET["limit"] > 500 || $_GET["limit"] <= 0) {
+                        Request::error();
+                    } else {
+                        static::$limit = $_GET["limit"];
+                    }
+                }
+
+                if (isset($_GET["page"])) {
+                    if (!is_numeric($_GET["page"]) || ($_GET["page"] * static::$limit) > 500 || $_GET["page"] <= 0) {
+                        Request::error();
+                    } else {
+                        static::$offset = ($_GET["page"] - 1) * static::$limit;
+                    }
+                }
+            }
+
+
+            $result = self::fortune500()->getCompanies(static::$offset, static::$limit);
 
             $companies = [];
 
@@ -43,7 +75,6 @@ class Fortune500Controller
             }
 
             $companies = json_encode($companies);
-
             Request::setHeaders(["Access-Control-Allow-Origin: *", "Content-Type: application/json"]);
             echo $companies;
         }

@@ -23,7 +23,7 @@ class Fortune500
         $this->year = $year;
     }
 
-    public function getCompanies()
+    public function getCompanies($offset, $limit)
     {
         $conn = Database::conn();
         $query = "SELECT 
@@ -37,11 +37,14 @@ class Fortune500
         profit_percent_change,
         assets_in_millions,
         market_value_in_millions 
-        FROM " . $this->year;
+        FROM " . $this->year . " LIMIT :offset, :limit";
 
-        $stmt = $conn->query($query);
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam('offset', $offset, PDO::PARAM_INT);
+        $stmt->bindParam('limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
         $conn = NULL;
-        
+
         return $stmt;
     }
 
@@ -64,7 +67,7 @@ class Fortune500
         $stmt = $conn->prepare($query);
         $stmt->execute(["rank" => $rank]);
         $conn = NULL;
-        
+
         return $stmt;
     }
 }

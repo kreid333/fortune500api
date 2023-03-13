@@ -3,13 +3,18 @@ class Request
 {
     public static function uri()
     {
-        $uri = trim($_SERVER["REQUEST_URI"], "/");
+        $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), "/");
         return $uri;
     }
 
     public static function explodedUri()
     {
         $exploded_uri = explode("/", self::uri());
+
+        if (strpos($exploded_uri[1], "?") !== false) {
+            $exploded_uri[1] = explode("?", $exploded_uri[1]);
+        }
+
         return $exploded_uri;
     }
 
@@ -39,7 +44,6 @@ class Request
         for ($i = 0; $i < count($headers); $i++) {
             header($headers[$i]);
         }
-
     }
 
     public static function error()
@@ -49,5 +53,6 @@ class Request
         $err = json_encode($err);
         self::setHeaders(["Access-Control-Allow-Origin: *", "Content-Type: application/json"]);
         echo $err;
+        die();
     }
 }
