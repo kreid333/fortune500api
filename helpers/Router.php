@@ -6,18 +6,22 @@ class Router
 {
     public static function direct($uri)
     {
-        switch (Request::explodedUri()[1]) {
-            case "companies":
-                Fortune500Controller::getCompanies();
-                break;
+        if (Request::uri() != "") {
+            switch (Request::explodedUri()[1]) {
+                case "companies":
+                    Fortune500Controller::getCompanies();
+                    break;
 
-            case "rank":
-                Fortune500Controller::getCompanyByRank();
-                break;
+                case "rank":
+                    Fortune500Controller::getCompanyByRank();
+                    break;
 
-            default:
-                Request::error();
-                break;
+                default:
+                    Request::error();
+                    break;
+            }
+        } else {
+            require("../public/views/index.view.php");
         }
     }
 }
