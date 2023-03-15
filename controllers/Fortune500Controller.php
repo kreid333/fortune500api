@@ -85,7 +85,7 @@ class Fortune500Controller
         if (self::fortune500() == NULL) {
             Request::error();
         } else {
-            if (!isset(Request::explodedUri()[2]) || !is_numeric(Request::explodedUri()[2]) || Request::explodedUri()[2] > 500 || Request::explodedUri()[2] <= 0) {
+            if (!isset(Request::explodedUri()[2]) || count(Request::explodedUri()) > 3 || !is_numeric(Request::explodedUri()[2]) || Request::explodedUri()[2] > 500 || Request::explodedUri()[2] <= 0 || !empty($_GET)) {
                 Request::error();
             } else {
                 $result = self::fortune500()->getCompanyByRank(intval(Request::explodedUri()[2]));
