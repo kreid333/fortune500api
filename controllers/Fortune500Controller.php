@@ -90,10 +90,26 @@ class Fortune500Controller
             } else {
                 $result = self::fortune500()->getCompanyByRank(intval(Request::explodedUri()[2]));
                 $result = $result->fetch(PDO::FETCH_ASSOC);
-                $result = json_encode($result);
+
+                extract($result);
+
+                $company = [
+                    "rank" => intval($rank),
+                    "company_name" => $company_name,
+                    "number_of_employees" => intval($number_of_employees),
+                    "change_in_rank" => intval($change_in_rank),
+                    "revenues_in_millions" => intval($revenues_in_millions),
+                    "revenue_percent_change" => floatval($revenue_percent_change),
+                    "profits_in_millions" => intval($profits_in_millions),
+                    "profit_percent_change" => floatval($profit_percent_change),
+                    "assets_in_millions" => intval($assets_in_millions),
+                    "market_value_in_millions" => intval($market_value_in_millions)
+                ];
+
+                $company = json_encode($company);
 
                 Request::setHeaders(["Access-Control-Allow-Origin: *", "Content-Type: application/json"]);
-                echo $result;
+                echo $company;
             }
         }
     }
