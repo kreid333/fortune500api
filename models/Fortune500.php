@@ -27,7 +27,7 @@ class Fortune500
     {
         $conn = Database::conn();
         $query = "SELECT 
-        rank,
+        `rank`,
         company_name,
         number_of_employees,
         change_in_rank,
@@ -52,7 +52,7 @@ class Fortune500
     {
         $conn = Database::conn();
         $query = "SELECT 
-        rank,
+        `rank`,
         company_name,
         number_of_employees,
         change_in_rank,
@@ -62,7 +62,7 @@ class Fortune500
         profit_percent_change,
         assets_in_millions,
         market_value_in_millions 
-        FROM " . $this->year . " WHERE rank = :rank";
+        FROM " . $this->year . " WHERE `rank` = :rank";
 
         $stmt = $conn->prepare($query);
         $stmt->execute(["rank" => $rank]);
