@@ -11,8 +11,10 @@ class Request
     {
         $exploded_uri = explode("/", self::uri());
 
-        if (strpos($exploded_uri[1], "?") !== false) {
-            $exploded_uri[1] = explode("?", $exploded_uri[1]);
+        if (isset($exploded_uri[1])) {
+            if (strpos($exploded_uri[1], "?") !== false) {
+                $exploded_uri[1] = explode("?", $exploded_uri[1]);
+            }
         }
 
         return $exploded_uri;

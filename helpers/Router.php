@@ -6,7 +6,7 @@ class Router
 {
     public static function direct($uri)
     {
-        if (Request::uri() != "") {
+        if (Request::uri() != "" && count(Request::explodedUri()) >= 2) {
             switch (Request::explodedUri()[1]) {
                 case "companies":
                     Fortune500Controller::getCompanies();
