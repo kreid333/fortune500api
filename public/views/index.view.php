@@ -70,7 +70,7 @@
         <div class="content">
             <div class="content__info">
                 <h3 class="content__title"><code>GET</code> Company by Rank</h2>
-                    <p>Get information about a specific company for the specified year by using the <code>{year}/rank/{number}</code> endpoint.</p>
+                    <p>Get information about a specific company for the specified year by using the <code>/{year}/rank/{number}</code> endpoint.</p>
                     <pre><code><a href="/2020/rank/1">https://fortune500api.sndbxx.com/2020/rank/1</a></code></pre>
             </div>
             <div class="content__code">
